@@ -1,0 +1,129 @@
+/* ===== VARIABLES CSS Y TEMAS ===== */
+
+/* ===== TEMA CLARO (Por defecto) ===== */
+:root {
+    /* Colores principales */
+    --primary-color: #3b82f6;
+    --secondary-color: #60a5fa;
+    --accent-color: #818cf8;
+    --danger-color: #d60d0d;
+    --success-color: #0dd11d;
+    
+    /* Colores de tema claro */
+    --dark-color: #1e293b;
+    --light-color: #fafafaf1;
+    --sidebar-bg: #3b82f6;
+    --card-bg: #ffffff;
+    --text-color: #334155;
+    --text-light: #64748b;
+    
+    /* Efectos visuales */
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --gradient: linear-gradient(135deg, #3b82f6, #60a5fa);
+}
+
+/* ===== TEMA OSCURO ===== */
+[data-theme="dark"] {
+    --primary-color: #1a6bc7;
+    --secondary-color: #38bdf8;
+    --accent-color: #9034e6;
+    --danger-color: #f43f5e;
+    --success-color: #10b981;
+    --dark-color: #f8fafc;
+    --light-color: #0f172a;
+    --sidebar-bg: #1e293b;
+    --card-bg: #1e293b;
+    --text-color: #e2e8f0;
+    --text-light: #5f656d;
+    --shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    --gradient: linear-gradient(135deg, #6366f1, #38bdf8);
+}
+
+/* ===== ESTILOS BASE PARA TEMA OSCURO ===== */
+[data-theme="dark"] body {
+    background-color: #0f172a;
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .login-container {
+    background: var(--gradient);
+}
+
+[data-theme="dark"] .login-form {
+    background: var(--card-bg);
+    color: var(--text-color);
+    border: 1px solid #334155;
+}
+
+[data-theme="dark"] .login-form h2 {
+    color: var(--dark-color);
+}
+
+[data-theme="dark"] .form-group label {
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group select {
+    background-color: #334155;
+    border-color: #475569;
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .form-group input:focus,
+[data-theme="dark"] .form-group select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .card,
+[data-theme="dark"] .dashboard-card,
+[data-theme="dark"] .account-balance-card {
+    background: var(--card-bg);
+    border: 1px solid #334155;
+}
+
+[data-theme="dark"] th {
+    background-color: #334155;
+    color: var(--text-color);
+}
+
+[data-theme="dark"] td {
+    border-bottom-color: #334155;
+}
+
+[data-theme="dark"] table {
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .alert-success {
+    background-color: #064e3b;
+    color: #a7f3d0;
+    border-color: #047857;
+}
+
+[data-theme="dark"] .alert-error {
+    background-color: #7f1d1d;
+    color: #fecaca;
+    border-color: #dc2626;
+}
+
+[data-theme="dark"] .modal-content { 
+    border: 1px solid #334155; 
+}
+
+[data-theme="dark"] #users-table th {
+    background-color: #2a3647;
+    color: var(--text-color);
+    border-bottom-color: #334155;
+}
+
+[data-theme="dark"] .users-table-wrapper thead th {
+    background-color: #334155;
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .more-submenu a { 
+    color: var(--text-color); 
+    background: rgba(255,255,255,0.04); 
+}

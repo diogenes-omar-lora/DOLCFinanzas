@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Finanzas Personales</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="app-screen" class="app-container hidden">
+        <!-- Barra lateral -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-wallet"></i> Mis Finanzas</h2>
+                <button id="close-sidebar" class="close-sidebar-btn" aria-label="Cerrar menú">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="sidebar-user" class="sidebar-user">
+                <i class="fas fa-user-circle"></i>
+                <span id="sidebar-username">Usuario</span>
+            </div>
+            <ul>
+                <li><a href="#" class="nav-link active" data-section="dashboard"><i class="fas fa-chart-line"></i><span> Dashboard</span></a></li>
+                <li><a href="#" class="nav-link" data-section="accounts"><i class="fas fa-piggy-bank"></i><span> Cuentas</span></a></li>
+                <li><a href="#" class="nav-link" data-section="transactions"><i class="fas fa-exchange-alt"></i><span> Transacciones</span></a></li>
+                <li><a href="#" class="nav-link" data-section="transfers"><i class="fas fa-sync-alt"></i><span> Transferencias</span></a></li>
+                <li><a href="#" class="nav-link" data-section="users" id="users-nav-link" style="display: none;"><i class="fas fa-users"></i><span> Usuarios</span></a></li>
+                <li><a href="#" class="nav-link" data-section="reports"><i class="fas fa-chart-pie"></i><span> Reportes</span></a></li>
+                <li><a href="#" id="more-menu-toggle" class="more-toggle" aria-haspopup="true" aria-expanded="false" aria-controls="more-submenu"><i class="fas fa-bars"></i><span> Más</span></a></li>
+                <li><a href="#" class="nav-link" data-section="goals"><i class="fas fa-bullseye"></i><span> Metas de Ahorro</span></a></li>
+                <li><a href="#" class="nav-link" data-section="budget"><i class="fas fa-wallet"></i><span> Presupuesto</span></a></li>
+                <li><a href="#" class="nav-link" data-section="settings"><i class="fas fa-cog"></i><span> Configuraciones</span></a></li>
+                <li><a href="#" class="nav-link" id="logout-btn" data-section="logout"><i class="fas fa-sign-out-alt"></i><span> Cerrar Sesión</span></a></li>
+            </ul>
+        </div>
+
+        <!-- Submenú móvil para elementos restantes -->
+        <nav id="more-submenu" class="more-submenu hidden" aria-hidden="true" role="menu">
+            <ul>
+                <li><a href="#" role="menuitem" class="submenu-item" data-target-section="reports"><i class="fas fa-chart-pie"></i><span> Reportes</span></a></li>
+                <li><a href="#" role="menuitem" class="submenu-item" data-target-section="goals"><i class="fas fa-bullseye"></i><span> Ahorro</span></a></li>
+                <li><a href="#" role="menuitem" class="submenu-item" data-target-section="budget"><i class="fas fa-wallet"></i><span> Presupuesto</span></a></li>
+                <li><a href="#" role="menuitem" class="submenu-item" data-target-section="settings"><i class="fas fa-cog"></i><span> Configuraciones</span></a></li>
+                <li><a href="#" role="menuitem" class="submenu-item" data-target-section="logout"><i class="fas fa-sign-out-alt"></i><span> Cerrar Sesión</span></a></li>
+            </ul>
+        </nav>
+
+        <!-- Contenido principal -->
+        <div class="main-content">
+            <div class="header">
+                <div class="header-left">
+                    <button id="menu-toggle" class="menu-toggle-btn" aria-label="Abrir menú">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                     <h1 id="section-title">Dashboard</h1>
+                </div>
+                <div class="header-actions">
+                    <button id="theme-toggle" class="theme-toggle-btn" title="Cambiar tema">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                    <!-- Selector de mes para dashboard y reportes (en Reportes se mostrará solo el campo) -->
+                    <div class="month-selector dashboard-only" style="display:inline-flex;gap:0.5rem;align-items:center;margin-left:0.5rem;">
+                        <input type="month" id="dashboard-month-picker" aria-label="Mes y año" style="padding:0.4rem;border-radius:6px;border:1px solid #ccc;">
+                        <button id="dashboard-current-month-btn" class="btn" style="width:auto;padding:0.5rem 0.75rem;">Mes actual</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard -->
+            <div id="dashboard-section" class="section">
+                <div class="dashboard-cards">
+                    <div class="dashboard-card">
+                        <h3>Total en Cuentas</h3>
+                        <div class="amount balance" id="total-accounts">$0.00</div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>Ingreso Mensual</h3>
+                        <div class="amount income" id="total-income">$0.00</div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>Gasto Mensual</h3>
+                        <div class="amount expense" id="total-expense">$0.00</div>
+                    </div>
+                </div>
+
+                <div id="accounts-balance-cards" class="accounts-balance-cards">
+                    <!-- Las tarjetas de cada cuenta se generarán dinámicamente aquí -->
+                </div>
+
+                <div class="card">
+                    <h3>Resumen Financiero</h3>
+                    <div class="chart-container">
+                        <canvas id="finance-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Últimas Transacciones</h3>
+                    <div class="recent-transactions-wrapper">
+                        <table id="recent-transactions">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Monto</th>
+                                    <th>Categoría</th>
+                                    <th>Cuenta</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Las transacciones se cargarán aquí dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cuentas -->
+            <div id="accounts-section" class="section hidden">
+                <div class="card">
+                    <h3>Mis Cuentas</h3>
+                    <div id="accounts-alert" class="alert hidden"></div>
+                    <div class="accounts-actions" style="display:flex;justify-content:flex-end;gap:.5rem;margin-bottom:.75rem;">
+                        <button id="open-add-account-modal-btn" class="btn btn-success" style="width:auto;">Agregar cuenta</button>
+                        <button id="delete-account-btn" class="btn btn-danger" style="width:auto;" disabled>Eliminar cuenta</button>
+                    </div>
+                    <div class="accounts-table-scroll" style="max-height:260px;overflow-y:auto;">
+                        <table id="accounts-table" style="width:100%;">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Tipo</th>
+                                    <th>Saldo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Las cuentas se cargarán aquí dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Modal para agregar cuenta -->
+                <div id="account-modal" class="modal hidden" aria-hidden="true" role="dialog" aria-labelledby="account-modal-title">
+                    <div class="modal-overlay" data-close="account-modal"></div>
+                    <div class="modal-content" role="document">
+                        <div class="modal-header">
+                            <h3 id="account-modal-title">Agregar Nueva Cuenta</h3>
+                            <button type="button" class="modal-close" id="account-modal-close" aria-label="Cerrar">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="account-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="account-name">Nombre de la Cuenta</label>
+                                        <input type="text" id="account-name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="account-type">Tipo de Cuenta</label>
+                                        <select id="account-type" required>
+                                            <option value="">Selecciona un tipo</option>
+                                            <option value="Efectivo">Efectivo</option>
+                                            <option value="Cuenta Corriente">Cuenta Corriente</option>
+                                            <option value="Cuenta de Ahorros">Cuenta de Ahorros</option>
+                                            <option value="Tarjeta de Crédito">Tarjeta de Crédito</option>
+                                            <option value="Inversión">Inversión</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="account-balance">Saldo Inicial</label>
+                                    <input type="number" id="account-balance" step="0.01" required>
+                                </div>
+                                <div class="modal-actions">
+                                    <button type="button" class="btn btn-danger" id="account-modal-cancel">Cancelar</button>
+                                    <button type="submit" class="btn btn-success">Agregar Cuenta</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transacciones -->
+            <div id="transactions-section" class="section hidden">
+                <div class="card">
+                    <h3>Registro de Transacciones</h3>
+                    <div id="transactions-alert" class="alert hidden"></div>
+                    <div class="transactions-actions" style="display:flex;justify-content:flex-end;gap:.5rem;margin-bottom:.75rem;flex-wrap:wrap;">
+                        <button id="open-add-transaction-modal-btn" class="btn btn-success" style="width:auto;">Agregar</button>
+                        <button id="toggle-filters-btn" class="btn" style="width:auto;">Filtros</button>
+                        <button id="delete-transaction-btn" class="btn btn-danger" style="width:auto;" disabled>Eliminar</button>
+                    </div>
+                    
+                    <!-- Filtros colapsables -->
+                    <div id="filters-section" class="filters-section hidden" style="margin-bottom:1rem;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="filter-type">Tipo</label>
+                                <select id="filter-type">
+                                    <option value="">Todos</option>
+                                    <option value="income">Ingreso</option>
+                                    <option value="expense">Gasto</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="filter-category">Categoría</label>
+                                <select id="filter-category">
+                                    <option value="">Todas</option>
+                                    <option value="Alimentación">Alimentación</option>
+                                    <option value="Transporte">Transporte</option>
+                                    <option value="Vivienda">Vivienda</option>
+                                    <option value="Salud">Salud</option>
+                                    <option value="Entretenimiento">Entretenimiento</option>
+                                    <option value="Educación">Educación</option>
+                                    <option value="Ingresos">Ingresos</option>
+                                    <option value="Transferencia">Transferencia</option>
+                                    <option value="Otros">Otros</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="filter-account">Cuenta</label>
+                                <select id="filter-account">
+                                    <option value="">Todas</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="filter-date-from">Desde</label>
+                                <input type="date" id="filter-date-from">
+                            </div>
+                            <div class="form-group">
+                                <label for="filter-date-to">Hasta</label>
+                                <input type="date" id="filter-date-to">
+                            </div>
+                            <div class="form-group" style="display:flex;gap:.5rem;align-items:flex-end;">
+                                <button id="apply-filters" class="btn">Aplicar</button>
+                                <button id="clear-filters" class="btn btn-danger">Limpiar</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="transactions-table-wrapper">
+                        <table id="transactions-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Tipo</th>
+                                <th>Monto</th>
+                                <th>Descripción</th>
+                                <th>Categoría</th>
+                                <th>Cuenta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las transacciones se cargarán aquí dinámicamente -->
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Modal para agregar transacción -->
+                <div id="transaction-modal" class="modal hidden" aria-hidden="true" role="dialog" aria-labelledby="transaction-modal-title">
+                    <div class="modal-overlay" data-close="transaction-modal"></div>
+                    <div class="modal-content" role="document">
+                        <div class="modal-header">
+                            <h3 id="transaction-modal-title">Agregar</h3>
+                            <button type="button" class="modal-close" id="transaction-modal-close" aria-label="Cerrar">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="transaction-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="transaction-date">Fecha</label>
+                                        <input type="date" id="transaction-date" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="transaction-type">Tipo</label>
+                                        <select id="transaction-type" required>
+                                            <option value="">Selecciona un tipo</option>
+                                            <option value="income">Ingreso</option>
+                                            <option value="expense">Gasto</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="transaction-description">Descripción</label>
+                                        <input type="text" id="transaction-description" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="transaction-category">Categoría</label>
+                                        <select id="transaction-category" required>
+                                            <option value="">Selecciona una categoría</option>
+                                            <option value="Alimentación">Alimentación</option>
+                                            <option value="Transporte">Transporte</option>
+                                            <option value="Vivienda">Vivienda</option>
+                                            <option value="Salud">Salud</option>
+                                            <option value="Entretenimiento">Entretenimiento</option>
+                                            <option value="Educación">Educación</option>
+                                            <option value="Ingresos">Ingresos</option>
+                                            <option value="Transferencia">Transferencia</option>
+                                            <option value="Otros">Otros</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="transaction-amount">Monto</label>
+                                        <input type="number" id="transaction-amount" step="0.01" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="transaction-account">Cuenta</label>
+                                        <select id="transaction-account" required>
+                                            <option value="">Selecciona una cuenta</option>
+                                            <!-- Las cuentas se cargarán aquí dinámicamente -->
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-actions">
+                                    <button type="button" class="btn btn-danger" id="transaction-modal-cancel">Cancelar</button>
+                                    <button type="submit" class="btn btn-success">Agregar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transferencias -->
+            <div id="transfers-section" class="section hidden">
+                <div class="card">
+                    <h3>Transferencias entre Cuentas</h3>
+                    <div id="transfers-alert" class="alert hidden"></div>
+                    <div class="transfers-actions" style="display:flex;justify-content:flex-end;gap:.5rem;margin-bottom:.75rem;">
+                        <button id="open-add-transfer-modal-btn" class="btn btn-success" style="width:180px;padding:0.6rem;font-size:0.9rem;">Agregar</button>
+                        <button id="delete-transfer-btn" class="btn btn-danger" style="width:180px;padding:0.6rem;font-size:0.9rem;" disabled>Eliminar</button>
+                    </div>
+                    <div class="transfers-table-wrapper">
+                        <table id="transfers-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Descripción</th>
+                                <th>Desde</th>
+                                <th>Hacia</th>
+                                <th>Monto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las transferencias se cargarán aquí dinámicamente -->
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Modal para agregar transferencia -->
+                <div id="transfer-modal" class="modal hidden" aria-hidden="true" role="dialog" aria-labelledby="transfer-modal-title">
+                    <div class="modal-overlay" data-close="transfer-modal"></div>
+                    <div class="modal-content" role="document">
+                        <div class="modal-header">
+                            <h3 id="transfer-modal-title">Nueva Transferencia</h3>
+                            <button type="button" class="modal-close" id="transfer-modal-close" aria-label="Cerrar">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="transfer-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="transfer-date">Fecha</label>
+                                        <input type="date" id="transfer-date" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="transfer-description">Descripción</label>
+                                        <input type="text" id="transfer-description" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="transfer-from">Desde Cuenta</label>
+                                        <select id="transfer-from" required>
+                                            <option value="">Selecciona una cuenta</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="transfer-to">Hacia Cuenta</label>
+                                        <select id="transfer-to" required>
+                                            <option value="">Selecciona una cuenta</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="transfer-amount">Monto</label>
+                                    <input type="number" id="transfer-amount" step="0.01" required>
+                                </div>
+                                <div class="modal-actions">
+                                    <button type="button" class="btn btn-danger" id="transfer-modal-cancel">Cancelar</button>
+                                    <button type="submit" class="btn btn-success">Realizar Transferencia</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Usuarios - Solo para administradores -->
+            <div id="users-section" class="section hidden">
+                <div class="card">
+                    <h3><i class="fas fa-users"></i> Gestión de Usuarios</h3>
+                    <div id="users-alert" class="alert hidden"></div>
+                    <div class="users-actions" style="display:flex;justify-content:flex-end;gap:.5rem;margin-bottom:.75rem;">
+                        <button id="edit-user-btn" class="btn" style="width:150px;padding:0.6rem;font-size:0.9rem;" disabled>Editar</button>
+                        <button id="delete-user-btn" class="btn btn-danger" style="width:150px;padding:0.6rem;font-size:0.9rem;" disabled>Eliminar</button>
+                    </div>
+                    <div class="users-table-wrapper" style="max-height:400px;overflow-y:auto;">
+                        <table id="users-table">
+                            <thead>
+                                <tr>
+                                    <th>Usuario</th>
+                                    <th>Rol</th>
+                                    <th>Fecha de Registro</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Los usuarios se cargarán aquí dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Modal para editar usuario -->
+                <div id="user-modal" class="modal hidden" aria-hidden="true" role="dialog" aria-labelledby="user-modal-title">
+                    <div class="modal-overlay" data-close="user-modal"></div>
+                    <div class="modal-content" role="document">
+                        <div class="modal-header">
+                            <h3 id="user-modal-title"><i class="fas fa-user-edit"></i> Editar Usuario</h3>
+                            <button type="button" class="modal-close" id="user-modal-close" aria-label="Cerrar">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="user-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="edit-username">Usuario</label>
+                                        <input type="text" id="edit-username" required readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit-role">Rol</label>
+                                        <select id="edit-role" required>
+                                            <option value="user">Usuario Normal</option>
+                                            <option value="admin">Administrador</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="edit-password">Nueva Contraseña (dejar en blanco para no cambiar)</label>
+                                        <input type="password" id="edit-password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="confirm-edit-password">Confirmar Nueva Contraseña</label>
+                                        <input type="password" id="confirm-edit-password">
+                                    </div>
+                                </div>
+                                <div class="modal-actions">
+                                    <button type="button" class="btn btn-danger" id="user-modal-cancel">Cancelar</button>
+                                    <button type="submit" class="btn btn-success">Actualizar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reportes -->
+            <div id="reports-section" class="section hidden">
+                <!-- Barra de acciones específica de reportes -->
+                <div class="reports-toolbar" style="display:flex;justify-content:flex-end;gap:.5rem;margin-bottom:.75rem;flex-wrap:wrap;">
+                    <button id="reports-current-month-btn" class="btn" style="width:auto;">
+                        Mes actual
+                    </button>
+                    <button id="reports-export-btn" class="btn btn-success" style="width:auto;">
+                        <i class="fas fa-file-excel" style="margin-right:0.5rem;"></i>Exportar Excel
+                    </button>
+                </div>
+                <div class="card">
+                    <h3>Reporte de Gastos por Categoría</h3>
+                    <div class="chart-container">
+                        <canvas id="expenses-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Reporte de Ingresos vs Gastos</h3>
+                    <div class="chart-container">
+                        <canvas id="income-expense-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Detalle de Transacciones</h3>
+                    <div class="reports-transactions-wrapper">
+                        <table id="reports-transactions-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Tipo</th>
+                                    <th>Monto</th>
+                                    <th>Categoría</th>
+                                    <th>Cuenta</th>
+                                    <th>Descripción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Las transacciones se cargarán dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metas de Ahorro -->
+            <div id="goals-section" class="section hidden">
+                <div class="card">
+                    <h3><i class="fas fa-bullseye"></i> Metas de Ahorro</h3>
+                    <p>Configura y haz seguimiento a tus metas de ahorro. (Próximamente)</p>
+                </div>
+            </div>
+
+            <!-- Presupuesto -->
+            <div id="budget-section" class="section hidden">
+                <div class="card">
+                    <h3><i class="fas fa-wallet"></i> Presupuesto</h3>
+                    <p>Define presupuestos por categoría y controla tus gastos. (Próximamente)</p>
+                </div>
+            </div>
+
+            <!-- Configuraciones -->
+            <div id="settings-section" class="section hidden">
+                <div class="card">
+                    <h3><i class="fas fa-cog"></i> Configuraciones</h3>
+                    <p>Ajustes de la aplicación y preferencias del usuario. (Próximamente)</p>
+                    <BR>
+                    <p>4-11-2025<br>TE CONOCÍ CUANDO NO TENÍA GANAS DE CONOCER A NADIE Y  TERMINASTE OBTENIENDO UNA VERSÍON DE MÍ QUE SOLO PUEDES TENER  TÚ.</p>
+                    <BR> <P>TE QUIERO PARA TODA LA VIDAAAAA. AUNQUE CREAS QUE ES PRONTO PARA DECIR ESAS COSAS,
+                        PERO ME SIENTO SEGURO DICIENDO QUE SEREMOS NUESTRO ULTIMO AMOR ❤️ </P>
+                    <BR><P>Me encanta como vamos llevando los temas, todo a su timepo en los mementos adeceunados sin que nadie se sienta abrumado o avergonzado.
+                        Eres una persona increíble y me siento muy afortunado de tenerte en mi vida.❤️<br>
+                        hoy no 
+                    </P>
+                    <br><p>
+                        5-11-2025<br>
+                        Un amor de caballitos de mar❤️<br>
+                        he leido tu carta varias veces y cada vez me emociono más.
+                        Gracias por abrirme tu corazón, es un gesto que valoro muchísimo. <br>
+                        Gracias por ser como eres y por permitirme ser parte de tu vida. Hoy un dia 5 pero de junio
+                        empezamos esta aventura juntos❤️ 5 meses ya wao. <br><br>
+                        Recordarte que me siento muy feliz a tu lado y que cada dia que pasa te quiero mas.
+                        Eres una persona maravillosa y estoy agradecido por cada momento que compartimos juntos.
+                        
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="menu-overlay" style="display: none;"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

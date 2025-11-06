@@ -1,0 +1,640 @@
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* ===== MÓVILES (hasta 767px) ===== */
+@media (max-width: 767px) {
+    /* ===== SIDEBAR MÓVIL - BARRA INFERIOR ===== */
+    .sidebar {
+        all: initial !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        background: var(--sidebar-bg) !important;
+        z-index: 1000 !important;
+        padding: 8px 4px !important;
+        margin: 0 !important;
+        display: block !important;
+        transform: none !important;
+        transition: none !important;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2) !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+        order: 2 !important;
+    }
+
+    /* Ocultar elementos innecesarios en móvil */
+    .sidebar-header,
+    .sidebar-user,
+    .close-sidebar-btn,
+    .menu-toggle-btn {
+        display: none !important;
+    }
+
+    /* Lista horizontal de íconos */
+    .sidebar ul {
+        all: initial !important;
+        display: flex !important;
+        justify-content: space-around !important;
+        align-items: center !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        list-style: none !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+    }
+
+    .sidebar li {
+        all: initial !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        flex: 1 !important;
+        min-width: 0 !important;
+        text-align: center !important;
+        display: block !important;
+    }
+
+    /* Enlaces como íconos */
+    .sidebar a, .sidebar .more-toggle {
+        all: initial !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 4px !important;
+        padding: 8px 4px !important;
+        font: 11px/1.2 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+        color: white !important;
+        text-decoration: none !important;
+        border-radius: 6px !important;
+        min-height: 50px !important;
+        justify-content: center !important;
+        transition: background-color 0.2s ease !important;
+        cursor: pointer !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    .sidebar a i, .sidebar .more-toggle i {
+        font-size: 20px !important;
+        margin: 0 !important;
+    }
+
+    /* Ocultar texto - solo mostrar íconos */
+    .sidebar a, .sidebar .more-toggle { 
+        font-size: 0 !important; 
+    }
+    
+    .sidebar a span, .sidebar .more-toggle span { 
+        display: none !important; 
+        visibility: hidden !important;
+        font-size: 0 !important;
+        height: 0 !important;
+        width: 0 !important;
+        opacity: 0 !important;
+    }
+
+    /* Mostrar toggle "Más" y ocultar elementos del submenú de la barra */
+    #more-menu-toggle { 
+        display: flex !important; 
+    }
+    
+    .sidebar li:has(> a.nav-link[data-section="reports"]) { display: none !important; }
+    .sidebar li:has(> a.nav-link[data-section="goals"]) { display: none !important; }
+    .sidebar li:has(> a.nav-link[data-section="budget"]) { display: none !important; }
+    .sidebar li:has(> a.nav-link[data-section="settings"]) { display: none !important; }
+    .sidebar li:has(> a#logout-btn) { display: none !important; }
+
+    /* ===== SUBMENÚ FLOTANTE ===== */
+    .more-submenu {
+        position: fixed !important;
+        bottom: 72px !important;
+        left: 8px !important;
+        right: 8px !important;
+        background: var(--card-bg) !important;
+        border: 1px solid rgba(0,0,0,.08) !important;
+        border-radius: 12px !important;
+        box-shadow: 0 10px 30px rgba(0,0,0,.3) !important;
+        padding: 8px !important;
+        z-index: 1200 !important;
+        transform: translateY(8px);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform .2s ease, opacity .2s ease;
+    }
+    
+    .more-submenu.open {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
+    .more-submenu ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 6px;
+    }
+    
+    .more-submenu a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        padding: 8px 6px;
+        text-decoration: none;
+        color: var(--text-color);
+        border-radius: 8px;
+        font-size: 11px;
+        background: rgba(0,0,0,0.03);
+    }
+    
+    .more-submenu a i { 
+        font-size: 18px; 
+    }
+    
+    .more-submenu a:focus { 
+        outline: 2px solid var(--primary-color); 
+        outline-offset: 2px; 
+    }
+
+    /* ===== GESTIÓN DE USUARIOS EN MÓVIL ===== */
+    body:not(.is-admin) #users-nav-link { 
+        display: none !important; 
+    }
+    
+    body.is-admin #users-nav-link { 
+        display: flex !important; 
+    }
+    
+    body:not(.is-admin) .sidebar li:has(> #users-nav-link) { 
+        display: none !important; 
+    }
+
+    .sidebar a:hover,
+    .sidebar a.active {
+        background-color: rgba(255, 255, 255, 0.2) !important;
+    }
+
+    /* ===== CONTENIDO PRINCIPAL MÓVIL ===== */
+    .main-content {
+        order: 1 !important;
+        padding: 16px !important;
+        padding-bottom: 75px !important;
+        width: 100% !important;
+        margin-left: 0 !important;
+        min-height: calc(100vh - 75px) !important;
+    }
+
+    .app-container {
+        flex-direction: column !important;
+        min-height: 100vh !important;
+    }
+
+    /* ===== HEADER MÓVIL ===== */
+    .header {
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 8px !important;
+        margin-bottom: 16px !important;
+    }
+
+    .header-left {
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        width: auto !important;
+        flex: 1 1 auto !important;
+    }
+
+    .header-left h1 {
+        font-size: 20px !important;
+        text-align: left !important;
+        margin: 0 !important;
+    }
+
+    .header-actions {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        flex: 0 0 auto !important;
+        justify-content: flex-end !important;
+        flex-wrap: wrap !important;
+    }
+
+    /* Controles compactos en header */
+    .header-actions .btn {
+        width: auto !important;
+        padding: 0.45rem 0.6rem !important;
+        font-size: 0.85rem !important;
+        border-radius: 8px !important;
+        line-height: 1.1 !important;
+        white-space: nowrap !important;
+    }
+
+    #export-csv-btn {
+        padding: 0.45rem 0.6rem !important;
+        font-size: 0.85rem !important;
+        width: auto !important;
+    }
+
+    #export-csv-btn i {
+        font-size: 0.95rem !important;
+        margin-right: 0.4rem !important;
+    }
+
+    .month-selector {
+        gap: 0.35rem !important;
+    }
+
+    #dashboard-month-picker {
+        padding: 0.35rem 0.5rem !important;
+        font-size: 0.85rem !important;
+        width: 160px !important;
+    }
+
+    #dashboard-current-month-btn {
+        padding: 0.45rem 0.6rem !important;
+        font-size: 0.85rem !important;
+        width: auto !important;
+    }
+
+    .theme-toggle-btn {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 1rem !important;
+    }
+
+    /* ===== LAYOUT DASHBOARD MÓVIL ===== */
+    body[data-section="dashboard"] .header {
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 10px !important;
+    }
+    
+    body[data-section="dashboard"] .header-left {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+    
+    body[data-section="dashboard"] .header-left h1 {
+        text-align: center !important;
+    }
+    
+    body[data-section="dashboard"] .header-actions {
+        width: 100% !important;
+        justify-content: center !important;
+        gap: 8px !important;
+    }
+
+    /* Toolbar de reportes centrada */
+    .reports-toolbar {
+        justify-content: center !important;
+        display: flex !important;
+        gap: 8px !important;
+        flex-wrap: wrap !important;
+        margin-top: 4px !important;
+    }
+    
+    .reports-toolbar .btn {
+        width: auto !important;
+        padding: 0.45rem 0.6rem !important;
+        font-size: 0.85rem !important;
+        border-radius: 8px !important;
+        line-height: 1.1 !important;
+        white-space: nowrap !important;
+    }
+}
+
+/* ===== MÓVILES PEQUEÑOS (412px) ===== */
+@media (max-width: 412px) {
+    .sidebar {
+        padding: 6px 3px !important;
+    }
+    
+    .sidebar a {
+        padding: 6px 3px !important;
+        min-height: 45px !important;
+        font-size: 10px !important;
+    }
+    
+    .sidebar a i {
+        font-size: 14px !important;
+    }
+    
+    .sidebar a span {
+        font-size: 9px !important;
+    }
+    
+    .main-content {
+        padding-bottom: 65px !important;
+        min-height: calc(100vh - 65px) !important;
+    }
+}
+
+/* ===== TABLETS (768px - 1023px) ===== */
+@media (min-width: 768px) {
+    /* Ocultar elementos móviles */
+    #more-menu-toggle { 
+        display: none !important; 
+    }
+    
+    .more-submenu { 
+        display: none !important; 
+    }
+    
+    .app-container {
+        flex-direction: row;
+    }
+    
+    .sidebar {
+        width: 280px;
+        padding: 1.5rem 1rem;
+        order: 1;
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        /* Elevar por encima del overlay para permitir clics sobre el menú */
+        z-index: 1300;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .sidebar.mobile-open {
+        transform: translateX(0);
+    }
+    
+    .sidebar h2 {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .sidebar ul {
+        display: block;
+    }
+    
+    .sidebar li {
+        margin-bottom: 0.5rem;
+    }
+    
+    .sidebar a {
+        padding: 0.75rem;
+        font-size: 1rem;
+    }
+    
+    .main-content {
+        flex: 1;
+        padding: 1.5rem;
+        order: 2;
+        width: 100%;
+        margin-left: 0;
+    }
+    
+    .header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+    
+    .header h1 {
+        font-size: 1.75rem;
+        text-align: left;
+    }
+    
+    .dashboard-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .dashboard-card h3 {
+        font-size: 1rem;
+    }
+    
+    .dashboard-card .amount {
+        font-size: 1.8rem;
+    }
+    
+    .accounts-balance-cards {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .chart-container {
+        height: 300px;
+    }
+    
+    .form-row {
+        flex-direction: row;
+    }
+    
+    table {
+        font-size: 0.9rem;
+    }
+    
+    th, td {
+        padding: 0.75rem;
+    }
+    
+    .menu-toggle-btn {
+        display: flex;
+    }
+    
+    .close-sidebar-btn {
+        display: block;
+    }
+
+    /* Overlay debe quedar por debajo del sidebar en tablets */
+    .menu-overlay {
+        z-index: 1200; /* menor que el sidebar (1300) */
+    }
+}
+
+/* ===== DESKTOP (1024px - 1199px) ===== */
+@media (min-width: 1024px) {
+    .sidebar {
+        width: 250px;
+        position: fixed;
+        transform: translateX(0) !important;
+        z-index: 100;
+    }
+
+    /* En escritorio no necesitamos el overlay del menú lateral */
+    .menu-overlay {
+        display: none !important;
+    }
+    
+    .main-content {
+        padding: 2rem;
+        margin-left: 250px !important;
+        width: calc(100% - 250px) !important;
+        max-width: none;
+    }
+    
+    .header h1 {
+        font-size: 2rem;
+    }
+    
+    .dashboard-cards {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        max-width: 1200px;
+        margin: 0 auto 2rem auto;
+    }
+    
+    .accounts-balance-cards {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        max-width: 1200px;
+        margin: 0 auto 2rem auto;
+    }
+    
+    .card {
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .chart-container {
+        height: 350px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+    
+    table {
+        font-size: 1rem;
+    }
+    
+    .menu-toggle-btn,
+    .close-sidebar-btn {
+        display: none !important;
+    }
+}
+
+/* ===== PANTALLAS GRANDES (1200px - 1919px) ===== */
+@media (min-width: 1200px) {
+    .sidebar {
+        width: 280px;
+    }
+    
+    .main-content {
+        padding: 2.5rem;
+        margin-left: 280px !important;
+        width: calc(100% - 280px) !important;
+    }
+    
+    .header-left h1 {
+        font-size: 2rem;
+    }
+}
+
+/* ===== PANTALLAS EXTRA GRANDES (1920px+) ===== */
+@media (min-width: 1920px) {
+    .sidebar {
+        width: 300px;
+    }
+    
+    .main-content {
+        max-width: 90%;
+        padding: 2.5rem;
+        margin-left: 300px !important;
+        width: calc(100% - 300px) !important;
+    }
+    
+    .card {
+        max-width: 80%;
+    }
+    
+    .dashboard-cards {
+        max-width: 80%;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 3rem;
+    }
+    
+    .dashboard-card {
+        padding: 2.5rem;
+    }
+    
+    .dashboard-card h3 {
+        font-size: 1.2rem;
+    }
+    
+    .dashboard-card .amount {
+        font-size: 2.5rem;
+    }
+    
+    .accounts-balance-cards {
+        max-width: 80%;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 2.5rem;
+    }
+    
+    .account-balance-card {
+        padding: 2rem;
+    }
+    
+    .account-balance-card h4 {
+        font-size: 1.1rem;
+    }
+    
+    .account-balance-card .amount {
+        font-size: 1.8rem;
+    }
+    
+    .chart-container {
+        max-width: 1400px;
+        height: 450px;
+    }
+    
+    .header-left h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .card h3 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    table {
+        font-size: 1.2rem;
+    }
+    
+    th, td {
+        padding: 1.25rem;
+    }
+    
+    .btn {
+        font-size: 1.1rem;
+        padding: 1rem 1.5rem;
+    }
+    
+    .form-group label {
+        font-size: 1.1rem;
+    }
+    
+    .form-group input,
+    .form-group select {
+        font-size: 1.1rem;
+        padding: 1rem;
+    }
+    
+    .alert {
+        font-size: 1.1rem;
+        padding: 1rem;
+    }
+    
+    .sidebar a {
+        font-size: 1.1rem;
+        padding: 1rem 1.25rem;
+    }
+    
+    .sidebar-header h2 {
+        font-size: 1.8rem;
+    }
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi App Profesional - Bienvenido</title>
+    <link rel="stylesheet" href="css/welcome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <div class="welcome-container">
+        <header class="welcome-header">
+            <h1>Mi App Profesional</h1>
+            <p class="subtitle">Bienvenido a tu aplicación financiera</p>
+        </header>
+
+        <div class="features-grid">
+            <div class="feature-card" data-color="blue">
+                <div class="icon-wrapper blue">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <h3>Gestión de Cuentas</h3>
+                <p>Administra todas tus cuentas bancarias en un solo lugar</p>
+            </div>
+
+            <div class="feature-card" data-color="green">
+                <div class="icon-wrapper green">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <h3>Transacciones</h3>
+                <p>Registra y categoriza todos tus ingresos y gastos</p>
+            </div>
+
+            <div class="feature-card" data-color="purple">
+                <div class="icon-wrapper purple">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <h3>Transferencias</h3>
+                <p>Transfiere dinero entre tus cuentas fácilmente</p>
+            </div>
+
+            <div class="feature-card" data-color="orange">
+                <div class="icon-wrapper orange">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <h3>Reportes</h3>
+                <p>Visualiza tus finanzas con gráficos y estadísticas</p>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <button id="start-btn" class="start-button">
+                Comenzar
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('start-btn').addEventListener('click', () => {
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>

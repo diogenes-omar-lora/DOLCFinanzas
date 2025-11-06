@@ -1,0 +1,357 @@
+/* ===== COMPONENTES REUTILIZABLES ===== */
+
+/* ===== BOTONES ===== */
+.btn {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--gradient);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--success-color), #059669);
+}
+
+.btn-success:hover {
+    box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, var(--danger-color), #dc2626);
+}
+
+.btn-danger:hover {
+    box-shadow: 0 5px 15px rgba(247, 37, 133, 0.3);
+}
+
+.btn:disabled,
+.btn[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-transfer,
+.btn-transaction {
+    width: 200px;
+    margin: 0 auto;
+}
+
+/* Botones de Cuentas */
+.accounts-actions .btn {
+    width: 220px !important;
+    padding: 0.6rem 0.75rem !important;
+    font-size: 0.95rem !important;
+}
+
+@media (max-width: 767px) {
+    .accounts-actions .btn {
+        width: 180px !important;
+        padding: 0.5rem 0.6rem !important;
+        font-size: 0.85rem !important;
+    }
+}
+
+/* ===== FORMULARIOS ===== */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(69, 74, 97, 0.2);
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* ===== TARJETAS ===== */
+.card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+    margin-bottom: 1rem;
+    color: var(--dark-color);
+    font-size: 1.1rem;
+}
+
+/* ===== TABLAS ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+th, td {
+    padding: 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f1f5f9;
+    font-weight: 600;
+    color: var(--dark-color);
+    border-bottom: 2px solid #e2e8f0;
+}
+
+/* Selección de filas */
+#accounts-table tbody tr.selected,
+#transactions-table tbody tr.selected,
+#transfers-table tbody tr.selected,
+#users-table tbody tr.selected {
+    background-color: rgba(220, 38, 38, 0.12);
+    cursor: pointer;
+}
+
+#accounts-table tbody tr:hover,
+#transactions-table tbody tr:hover,
+#transfers-table tbody tr:hover,
+#users-table tbody tr:hover {
+    background-color: rgba(59, 130, 246, 0.08);
+    cursor: pointer;
+}
+
+/* Wrappers con scroll */
+.recent-transactions-wrapper,
+.transactions-table-wrapper,
+.transfers-table-wrapper,
+.reports-transactions-wrapper,
+.users-table-wrapper,
+.accounts-table-scroll {
+    overflow-y: auto;
+    border-radius: 8px;
+}
+
+.recent-transactions-wrapper { max-height: 360px; }
+.transactions-table-wrapper { max-height: 460px; }
+.transfers-table-wrapper { max-height: 400px; }
+.reports-transactions-wrapper { max-height: 480px; }
+
+/* Headers sticky en tablas con scroll */
+.recent-transactions-wrapper thead th,
+.transactions-table-wrapper thead th,
+.transfers-table-wrapper thead th,
+.reports-transactions-wrapper thead th,
+.users-table-wrapper thead th,
+.accounts-table-scroll thead th {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background: var(--card-bg);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Scroll personalizado */
+.accounts-table-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scroll-thumb) var(--scroll-bg);
+}
+
+.accounts-table-scroll::-webkit-scrollbar {
+    width: 8px;
+    background: var(--scroll-bg);
+    border-radius: 8px;
+}
+
+.accounts-table-scroll::-webkit-scrollbar-thumb {
+    background: var(--scroll-thumb);
+    border-radius: 8px;
+    border: 2px solid var(--scroll-border);
+}
+
+.accounts-table-scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--scroll-thumb-hover);
+}
+
+/* Acciones en tablas */
+.actions {
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+}
+
+.actions button {
+    padding: 0.25rem 0.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.actions button:hover {
+    transform: translateY(-1px);
+}
+
+/* ===== ALERTAS ===== */
+.alert {
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.alert-success {
+    background-color: #ecfdf5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
+}
+
+.alert-error {
+    background-color: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+}
+
+/* ===== MODALES ===== */
+.modal.hidden { 
+    display: none; 
+}
+
+.modal { 
+    position: fixed; 
+    inset: 0; 
+    z-index: 2000; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+}
+
+.modal-overlay { 
+    position: absolute; 
+    inset: 0; 
+    background: rgba(0,0,0,.5); 
+}
+
+.modal-content { 
+    position: relative; 
+    width: min(560px, 92vw); 
+    background: var(--card-bg); 
+    border: 1px solid rgba(0,0,0,.08); 
+    border-radius: 12px; 
+    box-shadow: var(--shadow); 
+    overflow: hidden; 
+    z-index: 1; 
+}
+
+.modal-header { 
+    display:flex; 
+    align-items:center; 
+    justify-content: space-between; 
+    padding: 1rem 1.25rem; 
+    border-bottom: 1px solid rgba(0,0,0,.08); 
+}
+
+.modal-header h3 { 
+    margin: 0; 
+    font-size: 1.1rem; 
+    color: var(--dark-color); 
+}
+
+.modal-body { 
+    padding: 1rem 1.25rem 1.25rem; 
+}
+
+.modal-actions { 
+    display:flex; 
+    justify-content: flex-end; 
+    gap:.5rem; 
+    margin-top: .5rem; 
+}
+
+.modal-close { 
+    background: transparent; 
+    border: none; 
+    font-size: 1.5rem; 
+    line-height: 1; 
+    cursor: pointer; 
+    color: var(--text-light); 
+}
+
+.modal-close:hover { 
+    color: var(--text-color); 
+}
+
+/* ===== COLORES PARA MONTOS ===== */
+.income, .positive {
+    color: var(--success-color);
+}
+
+.expense, .negative {
+    color: var(--danger-color);
+}
+
+.balance {
+    color: var(--primary-color);
+}
+
+.transfer {
+    color: #3498db;
+}
+
+/* ===== ROLES DE USUARIO ===== */
+.role-admin {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.role-user {
+    color: #28a745;
+    font-weight: bold;
+}
+
+/* ===== GRÁFICOS ===== */
+.chart-container {
+    height: 250px;
+    margin-bottom: 1.5rem;
+}
